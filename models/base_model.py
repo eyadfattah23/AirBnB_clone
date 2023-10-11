@@ -9,12 +9,11 @@ import datetime
 class BaseModel():
     '''defines all common attributes/methods for other classes'''
 
-    id = str(uuid.uuid4())
-    created_at = datetime.datetime.utcnow()
-    updated_at = datetime.datetime.utcnow()
-
     def __init__(self, *args, **kwargs):
         """initializes a new BaseModel object"""
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.datetime.utcnow()
+        self.updated_at = datetime.datetime.utcnow()
         if kwargs is not None:
             for k, v in kwargs.items():
                 if k == '__class__':

@@ -17,11 +17,13 @@ class TestBaseModel(unittest.TestCase):
         self.my_model_json = self.my_model.to_dict()
 
         self.args_base = BaseModel(89, 'my_model', 0)
+        self.base_with_kwargs = BaseModel(**self.my_model_json)
 
     def tearDown(self):
         """tear down module"""
         del self.my_model
         del self.args_base
+        del self.base_with_kwargs
 
     def test_str(self):
         """test string representation"""
@@ -71,10 +73,50 @@ class TestBaseModel(unittest.TestCase):
             self.assertIsNone(self.args_base.name)
             self.assertIsNone(self.args_base.updated_at)
 
+        self.assertIsInstance(self.args_base, BaseModel)
+        self.assertIsNotNone(self.args_base.id)
+        self.assertIsNotNone(self.args_base.created_at)
+        self.assertIsNotNone(self.args_base.updated_at)
+
     def test_kwargs(self):
-        """test initalization of a base model instance with kwargs"""
-        base_kwargs = BaseModel(**self.my_model_json)
-        self.assertEqual(base_kwargs.id, self.my_model.id)
-        self.assertEqual(str(base_kwargs), str(self.my_model))
-        # NOT FINISHED YET
-        # there's an error somewhere
+        """test initialization of a base model instance with kwargs"""
+
+        self.assertEqual(self.base_with_kwargs.id, self.my_model.id)
+        self.assertEqual(self.base_with_kwargs.created_at,
+                         self.my_model.created_at)
+        self.assertEqual(self.base_with_kwargs.updated_at,
+                         self.my_model.updated_at)
+        self.assertEqual(self.base_with_kwargs.name, self.my_model.name)
+        self.assertEqual(self.base_with_kwargs.my_number,
+                         self.my_model.my_number)
+
+        self.assertEqual(str(self.base_with_kwargs), str(self.my_model))
+
+        self.assertDictEqual(self.base_with_kwargs.to_dict(),
+                             self.my_model.to_dict())
+
+        self.base_with_kwargs.save()
+        self.assertNotEqual(self.base_with_kwargs.updated_at,
+                            self.my_model.updated_at)
+
+    def test_none_kwargs(self):
+        """test initialization of a base model instance with no kwargs"""
+        base2 = BaseModel(None)
+        self.assertIsInstance(base2, BaseModel)
+
+        self.assertIsInstance(base2.created_at, datetime.datetime)
+        self.assertIsInstance(base2.updated_at, datetime.datetime)
+
+        self.assertIsInstance(base2.to_dict(), dict)
+        self.assertIsInstance(base2.to_dict()['created_at'], str)
+        self.assertIsInstance(base2.to_dict()['updated_at'], str)
+        self.assertIsInstance(base2.to_dict()['__class__'], str)
+
+        self.assertIsInstance(base2.id, str)
+
+    def test_args_none_kwargs(self):
+        """test initialization of a base model instance with args and no kwargs"""
+        base3 = BaseModel(1, 2, name='best_school', num=89)
+        self.assertIsInstance(base3, BaseModel)
+        self.assertEqual(base3.name, 'best_school')
+        self.assertEqual(base3.num, 89)
