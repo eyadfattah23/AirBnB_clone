@@ -35,5 +35,4 @@ class FileStorage:
         with open(self.__file_path, 'w+') as f:
             json.dump(dictionary, f)
 
-    # do the reload methods for now YA KAREEM
     # they are just like the ones in 0x0C-python-almost_a_circle/models/base.py
