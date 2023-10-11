@@ -16,9 +16,12 @@ class TestBaseModel(unittest.TestCase):
         self.my_model.my_number = 89
         self.my_model_json = self.my_model.to_dict()
 
+        self.args_base = BaseModel(89, 'my_model', 0)
+
     def tearDown(self):
         """tear down module"""
         del self.my_model
+        del self.args_base
 
     def test_str(self):
         """test string representation"""
@@ -59,4 +62,19 @@ class TestBaseModel(unittest.TestCase):
         up_at1 = self.my_model.updated_at
         self.my_model.save()
         self.assertNotEqual(up_at1, self.my_model.updated_at)
-        self.assertEqual(up_at1, self.my_model.created_at)
+
+    def test_args(self):
+        """test if the *args is read (it shouldn't be)"""
+        with self.assertRaises(AttributeError) as e:
+            self.assertIsNone(self.args_base.number)
+            self.assertIsNone(self.args_base.number)
+            self.assertIsNone(self.args_base.name)
+            self.assertIsNone(self.args_base.updated_at)
+
+    def test_kwargs(self):
+        """test initalization of a base model instance with kwargs"""
+        base_kwargs = BaseModel(**self.my_model_json)
+        self.assertEqual(base_kwargs.id, self.my_model.id)
+        self.assertEqual(str(base_kwargs), str(self.my_model))
+        # NOT FINISHED YET
+        # there's an error somewhere

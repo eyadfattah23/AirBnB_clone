@@ -13,6 +13,20 @@ class BaseModel():
     created_at = datetime.datetime.utcnow()
     updated_at = datetime.datetime.utcnow()
 
+    def __init__(self, *args, **kwargs):
+        """initializes a new BaseModel object"""
+        if kwargs is not None:
+            for k, v in kwargs.items():
+                if k == '__class__':
+                    continue
+                elif k == 'updated_at' or k == 'created_at':
+                    self.__dict__[k] = datetime.datetime.fromisoformat(v)
+                else:
+                    self.__dict__[k] = v
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.utcnow()
+
     def __str__(self):
         """string representation of BaseModel
         """
