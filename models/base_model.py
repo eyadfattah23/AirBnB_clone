@@ -11,10 +11,7 @@ class BaseModel():
 
     def __init__(self, *args, **kwargs):
         """initializes a new BaseModel object"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.utcnow()
-        self.updated_at = datetime.datetime.utcnow()
-        if kwargs is not None:
+        if kwargs:
             for k, v in kwargs.items():
                 if k == '__class__':
                     continue
@@ -25,6 +22,9 @@ class BaseModel():
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.utcnow()
+            self.updated_at = datetime.datetime.utcnow()
+            from models import storage
+            storage.new(self)
 
     def __str__(self):
         """string representation of BaseModel
@@ -34,7 +34,10 @@ class BaseModel():
     def save(self):
         '''updates the public instance attribute
         updated_at with the current datetime'''
+        from models import storage
+
         self.updated_at = datetime.datetime.utcnow()
+        storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__"""
