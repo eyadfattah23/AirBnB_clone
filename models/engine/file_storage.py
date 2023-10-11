@@ -25,5 +25,15 @@ class FileStorage:
             FileStorage.__objects.update(
                 {f'{obj.__class__.__name__}.{obj.id}': obj})
 
-    # do the save and reload methods for now YA KAREEM
+    def save(self):
+        '''serializes __objects to the JSON file (path: __file_path)'''
+        import json
+
+        dictionary = {}
+        for key, value in self.__objects.items():
+            dictionary[key] = value.to_dict()
+        with open(self.__file_path, 'w+') as f:
+            json.dump(dictionary, f)
+
+    # do the reload methods for now YA KAREEM
     # they are just like the ones in 0x0C-python-almost_a_circle/models/base.py
