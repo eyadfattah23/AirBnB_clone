@@ -24,6 +24,8 @@ class TestBaseModel(unittest.TestCase):
         """test string representation"""
         self.assertEqual(self.my_model.name, "My First Model")
         self.assertEqual(self.my_model.my_number, 89)
+        self.assertEqual(str(self.my_model), "[BaseModel] ({}) {}".format(
+            self.my_model.id, self.my_model.__dict__))
 
     def test_types(self):
         """test everything's type"""
@@ -51,3 +53,10 @@ class TestBaseModel(unittest.TestCase):
             'created_at': self.my_model.created_at.isoformat(),
             'id': self.my_model.id
         })
+
+    def test_save(self):
+        """test the save method if it changes the updated at"""
+        up_at1 = self.my_model.updated_at
+        self.my_model.save()
+        self.assertNotEqual(up_at1, self.my_model.updated_at)
+        self.assertEqual(up_at1, self.my_model.created_at)
