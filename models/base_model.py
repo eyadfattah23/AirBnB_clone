@@ -11,18 +11,20 @@ class BaseModel():
 
     def __init__(self, *args, **kwargs):
         """initializes a new BaseModel object"""
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.datetime.utcnow()
+        self.updated_at = datetime.datetime.utcnow()
         if kwargs:
             for k, v in kwargs.items():
                 if k == '__class__':
                     continue
                 elif k == 'updated_at' or k == 'created_at':
-                    self.__dict__[k] = datetime.datetime.fromisoformat(v)
+                    setattr(self, k, datetime.datetime.fromisoformat(v))
                 else:
-                    self.__dict__[k] = v
+                    setattr(self, k, v)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.utcnow()
-            self.updated_at = datetime.datetime.utcnow()
             from models import storage
             storage.new(self)
 
