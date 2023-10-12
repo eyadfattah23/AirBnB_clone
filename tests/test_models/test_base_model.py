@@ -73,6 +73,10 @@ class TestBaseModel(unittest.TestCase):
             self.assertIsNone(self.args_base.name)
             self.assertIsNone(self.args_base.updated_at)
 
+        self.assertTrue(89 not in self.args_base.to_dict())
+        self.assertTrue("my_model" not in self.args_base.to_dict())
+        self.assertTrue(0 not in self.args_base.to_dict())
+
         self.assertIsInstance(self.args_base, BaseModel)
         self.assertIsNotNone(self.args_base.id)
         self.assertIsNotNone(self.args_base.created_at)
@@ -114,9 +118,14 @@ class TestBaseModel(unittest.TestCase):
 
         self.assertIsInstance(base2.id, str)
 
-    def test_args_none_kwargs(self):
-        """test initialization of a base model instance with args and no kwargs"""
+    def test_args_and_kwargs(self):
+        """test initialization of a base model instance with args
+                and no kwargs"""
         base3 = BaseModel(1, 2, name='best_school', num=89)
+        base4 = BaseModel(name='bestest_school', num=8989)
         self.assertIsInstance(base3, BaseModel)
         self.assertEqual(base3.name, 'best_school')
         self.assertEqual(base3.num, 89)
+        self.assertIsInstance(base4, BaseModel)
+        self.assertEqual(base4.name, 'bestest_school')
+        self.assertEqual(base4.num, 8989)
