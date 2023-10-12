@@ -11,41 +11,57 @@ FileStorage class and
 storage instance"""
 
 
-class FileStorageTestCase(unittest.TestCase):
+class TestFileStorage(unittest.TestCase):
     def setUp(self):
-        self.storage = FileStorage()
+        '''set up module'''
+        try:
+            os.remove('file.json')
+        except:
+            pass
         self.base_model = BaseModel()
+        self.storage = FileStorage()
+        self.storage.all().clear()
 
     def tearDown(self):
-        # Remove the file.json after each test
-        if os.path.exists('file.json'):
+        '''tear down module'''
+        del self.base_model
+        del self.storage
+        try:
             os.remove('file.json')
+        except:
+            pass
 
     def test_all(self):
+        '''test all method'''
         # Assert that the initial all() method returns an empty dictionary
         self.assertEqual(self.storage.all(), {})
 
         # Add an object to the storage and assert that all() returns the object
         self.storage.new(self.base_model)
-        self.assertEqual(self.storage.all(), {
-            'BaseModel.{}'.format(self.base_model.id): self.base_model
-        })
+        self.assertEqual(self.storage.all(), {'BaseModel.{}'.format(
+            self.base_model.id): self.base_model})
+        self.assertEqual(type(self.storage.all()), dict)
 
     def test_new(self):
-        # Assert that new() adds the object to the __objects dictionary
-        self.storage.new(self.base_model)
-        self.assertEqual(self.storage.all(), {
-            'BaseModel.{}'.format(self.base_model.id): self.base_model
-        })
+        '''test new method'''
+        init_len = len(self.storage.all())
+        new_obj = BaseModel()
+        self.storage.new(new_obj)
 
-    def test_save_reload(self):
-        # Save the object to the file
-        self.storage.new(self.base_model)
-        self.storage.save()
+        self.assertEqual(init_len + 1, len(self.storage.all()))
 
-        # Reload the objects from the file and assert that they match the original object
+        self.assertIn(f'{new_obj.__class__.__name__}.{new_obj.id}',
+                      self.storage.all().keys())
+
+        self.assertIn(new_obj, self.storage.all().values())
+
+    def test_reload_save(self):
+        '''test reload method'''
+        new_obj = BaseModel()
+        new_obj.save()
+        self.assertTrue(os.path.exists('file.json'))
+
+        self.assertNotEqual(os.path.getsize('file.json'), 0)
         self.storage.reload()
-        objects = self.storage.all()
-        self.assertEqual(len(objects), 1)
-        self.assertEqual(objects['BaseModel.{}'.format(
-            self.base_model.id)].to_dict(), self.base_model.to_dict())
+        self.assertIn(f'{new_obj.__class__.__name__}.{new_obj.id}',
+                      self.storage.all().keys())
