@@ -16,7 +16,7 @@ class TestFileStorage(unittest.TestCase):
         '''set up module'''
         try:
             os.remove('file.json')
-        except:
+        except Exception as e:
             pass
         self.base_model = BaseModel()
         self.storage = FileStorage()
@@ -28,7 +28,7 @@ class TestFileStorage(unittest.TestCase):
         del self.storage
         try:
             os.remove('file.json')
-        except:
+        except Exception as e:
             pass
 
     def test_all(self):
