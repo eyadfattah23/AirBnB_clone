@@ -57,6 +57,10 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload_save(self):
         '''test reload method'''
+        try:
+            os.remove('file.json')
+        except Exception as e:
+            pass
         new_obj = BaseModel()
         new_obj.save()
         self.assertTrue(os.path.exists('file.json'))
@@ -65,3 +69,6 @@ class TestFileStorage(unittest.TestCase):
         self.storage.reload()
         self.assertIn(f'{new_obj.__class__.__name__}.{new_obj.id}',
                       self.storage.all().keys())
+        reloaded_obj = self.storage.all()[f"BaseModel.{new_obj.id}"]
+
+        self.assertEqual(reloaded_obj.id, new_obj.id)
