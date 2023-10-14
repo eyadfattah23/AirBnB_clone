@@ -103,3 +103,31 @@ if __name__ == "__main__":
 ```
 
 When you run this script, it will start the command interpreter and display the prompt ">>>". You can enter commands like "greet" or "quit" to interact with the command interpreter.
+
+---
+
+### reload method explanation:
+
+    '''
+    1--> we got a dictionary like this from 'file.json':
+            {"BaseModel.ee49c413-023a-4b49-bd28-f2936c95460d": {
+                "my_number": 89,
+                "__class__": "BaseModel",
+                "updated_at": "2017-09-28T21:07:25.047381",
+                "created_at": "2017-09-28T21:07:25.047372",
+                "name": "My_First_Model",
+                "id": "ee49c413-023a-4b49-bd28-f2936c95460d"}}
+    2--> we go over the dictionary
+        with key ="BaseModel.ee49c413-023a-4b49-bd28-f2936c95460d"
+        and value = {
+                "my_number": 89,
+                "__class__": "BaseModel",
+                "updated_at": "2017-09-28T21:07:25.047381",
+                "created_at": "2017-09-28T21:07:25.047372",
+                "name": "My_First_Model",
+                "id": "ee49c413-023a-4b49-bd28-f2936c95460d
+    			}
+    3--> create instances using value as kwargs
+        and add those instances
+        using the right format to __objects
+    '''

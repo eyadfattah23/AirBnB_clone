@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+
 
 """class FileStorage that serializes instances to a JSON file and
 deserializes JSON file to instances"""
@@ -10,8 +10,8 @@ class FileStorage:
     '''serializes instances to a JSON file and
     deserializes JSON file to instances'''
 
-    __file_path = 'file.json'  # path to the JSON file
-    __objects = {}  # store all objects
+    __file_path = 'file.json'
+    __objects = {}
 
     def all(self):
         '''returns the dictionary __objects'''
@@ -46,33 +46,9 @@ class FileStorage:
         dictionary = {}
         try:
             with open(self.__file_path, 'r+') as f:
-                dictionary = json.load(f)  # 1
-            for key, value in dictionary.items():   # 2
-                self.__objects.update({key: BaseModel(**value)})    # 3
+                dictionary = json.load(f)
+            for key, value in dictionary.items():
+                self.__objects.update({key: BaseModel(**value)})
 
-                '''
-                1--> we got a dictionary like this from 'file.json':
-                        {"BaseModel.ee49c413-023a-4b49-bd28-f2936c95460d": {
-                            "my_number": 89,
-                            "__class__": "BaseModel",
-                            "updated_at": "2017-09-28T21:07:25.047381",
-                            "created_at": "2017-09-28T21:07:25.047372",
-                            "name": "My_First_Model",
-                            "id": "ee49c413-023a-4b49-bd28-f2936c95460d"}}
-                2--> we go over the dictionary
-                    with key ="BaseModel.ee49c413-023a-4b49-bd28-f2936c95460d"
-                    and value = {
-                            "my_number": 89,
-                            "__class__": "BaseModel",
-                            "updated_at": "2017-09-28T21:07:25.047381",
-                            "created_at": "2017-09-28T21:07:25.047372",
-                            "name": "My_First_Model",
-                            "id": "ee49c413-023a-4b49-bd28-f2936c95460d"}
-
-                3--> create instances using value as kwargs
-                    and add those instances
-                    using the right format to __objects
-                '''
         except Exception as e:
             pass
-    # they are just like the ones in 0x0C-python-almost_a_circle/models/base.py
