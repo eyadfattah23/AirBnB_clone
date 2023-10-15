@@ -146,3 +146,27 @@ class TestPlace(unittest.TestCase):
         self.base_with_kwargs.save()
         self.assertNotEqual(self.base_with_kwargs.updated_at,
                             self.my_model.updated_at)
+
+    def test_none_kwargs(self):
+        """test initialization of a base model instance with no kwargs"""
+        my_user2 = Place()
+        my_user2.city_id = "John"
+        my_user2.user_id = "airbnb2@mail.com"
+        my_user2.number_rooms = 0
+        my_user2.amenity_ids = [0, 1, 2, 3]
+        self.assertIsInstance(my_user2.created_at, datetime.datetime)
+        self.assertIsInstance(my_user2.updated_at, datetime.datetime)
+
+        self.assertIsInstance(my_user2.to_dict(), dict)
+        self.assertIsInstance(my_user2.to_dict()['created_at'], str)
+        self.assertIsInstance(my_user2.to_dict()['updated_at'], str)
+        self.assertIsInstance(my_user2.to_dict()['city_id'], str)
+        self.assertIsInstance(my_user2.to_dict()['user_id'], str)
+        self.assertIsInstance(my_user2.to_dict()['number_rooms'], int)
+        self.assertIsInstance(my_user2.to_dict()['amenity_ids'], list)
+
+        self.assertEqual(my_user2.city_id, 'John')
+        self.assertEqual(my_user2.user_id, 'airbnb2@mail.com')
+        self.assertEqual(my_user2.number_rooms, 0)
+        self.assertEqual(my_user2.amenity_ids, [0, 1, 2, 3])
+        self.assertIsInstance(my_user2.id, str)
