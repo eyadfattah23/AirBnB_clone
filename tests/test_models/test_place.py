@@ -170,3 +170,17 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(my_user2.number_rooms, 0)
         self.assertEqual(my_user2.amenity_ids, [0, 1, 2, 3])
         self.assertIsInstance(my_user2.id, str)
+
+    def test_args_and_kwargs(self):
+        """test initialization of a base model instance with args
+                and no kwargs"""
+        base3 = Place(1, 2, name='best_school', num=89)
+        base4 = Place(name='bestest_school', num=8989)
+        self.assertIsInstance(base3, Place)
+        self.assertIsInstance(base3, BaseModel)
+        self.assertEqual(base3.name, 'best_school')
+        self.assertEqual(base3.num, 89)
+        self.assertIsInstance(base4, BaseModel)
+        self.assertIsInstance(base4, Place)
+        self.assertEqual(base4.name, 'bestest_school')
+        self.assertEqual(base4.num, 8989)
