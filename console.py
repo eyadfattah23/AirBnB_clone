@@ -228,6 +228,12 @@ the model_type and model_id')
             setattr(all_models[model_key], attribute, value)
             all_models[model_key].save()
 
+    def help_update(self):
+        '''help for all method'''
+
+        # update <class name> <id> <attribute name> "<attribute value>"
+        print("all [model_type]")
+        print("Updates an instance based on the class name and id by adding or updating attribute")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
