@@ -126,4 +126,23 @@ class TestPlace(unittest.TestCase):
         self.assertIsNotNone(self.args_base.created_at)
         self.assertIsNotNone(self.args_base.updated_at)
 
-   
+    def test_kwargs(self):
+        """test initialization of a base model instance with kwargs"""
+
+        self.assertEqual(self.base_with_kwargs.id, self.my_model.id)
+        self.assertEqual(self.base_with_kwargs.created_at,
+                         self.my_model.created_at)
+        self.assertEqual(self.base_with_kwargs.updated_at,
+                         self.my_model.updated_at)
+        self.assertEqual(self.base_with_kwargs.name, self.my_model.name)
+        self.assertEqual(self.base_with_kwargs.my_number,
+                         self.my_model.my_number)
+
+        self.assertEqual(str(self.base_with_kwargs), str(self.my_model))
+
+        self.assertDictEqual(self.base_with_kwargs.to_dict(),
+                             self.my_model.to_dict())
+
+        self.base_with_kwargs.save()
+        self.assertNotEqual(self.base_with_kwargs.updated_at,
+                            self.my_model.updated_at)
