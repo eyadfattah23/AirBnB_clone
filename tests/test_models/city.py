@@ -89,3 +89,54 @@ class TestCity(unittest.TestCase):
         self.assertIsNotNone(self.args_base.id)
         self.assertIsNotNone(self.args_base.created_at)
         self.assertIsNotNone(self.args_base.updated_at)
+
+    def test_kwargs(self):
+        """test initialization of a base model instance with kwargs"""
+
+        self.assertEqual(self.base_with_kwargs.id, self.my_model.id)
+        self.assertEqual(self.base_with_kwargs.created_at,
+                         self.my_model.created_at)
+        self.assertEqual(self.base_with_kwargs.updated_at,
+                         self.my_model.updated_at)
+        self.assertEqual(self.base_with_kwargs.name, self.my_model.name)
+        self.assertEqual(self.base_with_kwargs.my_number,
+                         self.my_model.my_number)
+
+        self.assertEqual(str(self.base_with_kwargs), str(self.my_model))
+
+        self.assertDictEqual(self.base_with_kwargs.to_dict(),
+                             self.my_model.to_dict())
+
+        self.base_with_kwargs.save()
+        self.assertNotEqual(self.base_with_kwargs.updated_at,
+                            self.my_model.updated_at)
+
+    def test_none_kwargs(self):
+        """test initialization of a base model instance with no kwargs"""
+        my_user2 = City()
+        my_user2.name = "John"
+
+        self.assertIsInstance(my_user2.created_at, datetime.datetime)
+        self.assertIsInstance(my_user2.updated_at, datetime.datetime)
+
+        self.assertIsInstance(my_user2.to_dict(), dict)
+        self.assertIsInstance(my_user2.to_dict()['created_at'], str)
+        self.assertIsInstance(my_user2.to_dict()['updated_at'], str)
+        self.assertIsInstance(my_user2.to_dict()['name'], str)
+
+        self.assertEqual(my_user2.name, 'John')
+        self.assertIsInstance(my_user2.id, str)
+
+    def test_args_and_kwargs(self):
+        """test initialization of a base model instance with args
+                and no kwargs"""
+        base3 = City(1, 2, name='best_school', num=89)
+        base4 = City(name='bestest_school', num=8989)
+        self.assertIsInstance(base3, City)
+        self.assertIsInstance(base3, BaseModel)
+        self.assertEqual(base3.name, 'best_school')
+        self.assertEqual(base3.num, 89)
+        self.assertIsInstance(base4, BaseModel)
+        self.assertIsInstance(base4, City)
+        self.assertEqual(base4.name, 'bestest_school')
+        self.assertEqual(base4.num, 8989)
