@@ -65,3 +65,27 @@ class TestCity(unittest.TestCase):
             'id': self.my_model.id,
             'name': 'last_name'
         })
+
+    def test_save(self):
+        """test the save method if it changes the updated at"""
+        up_at1 = self.my_model.updated_at
+        self.my_model.save()
+        self.assertNotEqual(up_at1, self.my_model.updated_at)
+
+    def test_args(self):
+        """test if the *args is read (it shouldn't be)"""
+        with self.assertRaises(AttributeError) as e:
+            self.assertIsNone(self.args_base.number)
+            self.assertIsNone(self.args_base.number)
+            self.assertIsNone(self.args_base.name)
+            self.assertIsNone(self.args_base.updated_at)
+
+        self.assertTrue(89 not in self.args_base.to_dict())
+        self.assertTrue("my_model" not in self.args_base.to_dict())
+        self.assertTrue(0 not in self.args_base.to_dict())
+
+        self.assertIsInstance(self.args_base, BaseModel)
+        self.assertIsInstance(self.args_base, City)
+        self.assertIsNotNone(self.args_base.id)
+        self.assertIsNotNone(self.args_base.created_at)
+        self.assertIsNotNone(self.args_base.updated_at)
