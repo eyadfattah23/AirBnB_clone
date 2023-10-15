@@ -233,7 +233,8 @@ the model_type and model_id')
 
         # update <class name> <id> <attribute name> "<attribute value>"
         print("all [model_type]")
-        print("Updates an instance based on the class name and id by adding or updating attribute")
+        print("Updates an instance based\
+            on the class name and id by adding or updating attribute")
 
     def complete_update(self, text, line, begidx, endidx):
         """command completion method based on the names of the Models"""
@@ -241,10 +242,11 @@ the model_type and model_id')
             completions = HBNBCommand.__classes_names[:]
         else:
             completions = [f
-                        for f in HBNBCommand.__classes_names
-                        if f.startswith(text)
-                        ]
+                           for f in HBNBCommand.__classes_names
+                           if f.startswith(text)
+                           ]
         return completions
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
