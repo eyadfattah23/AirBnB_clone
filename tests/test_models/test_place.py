@@ -101,3 +101,9 @@ class TestPlace(unittest.TestCase):
             'number_rooms': 0,
             'latitude': 0.0
         })
+
+    def test_save(self):
+        """test the save method if it changes the updated at"""
+        up_at1 = self.my_model.updated_at
+        self.my_model.save()
+        self.assertNotEqual(up_at1, self.my_model.updated_at)
