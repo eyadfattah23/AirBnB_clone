@@ -115,3 +115,15 @@ class TestPlace(unittest.TestCase):
             self.assertIsNone(self.args_base.number)
             self.assertIsNone(self.args_base.name)
             self.assertIsNone(self.args_base.updated_at)
+
+        self.assertTrue(89 not in self.args_base.to_dict())
+        self.assertTrue("my_model" not in self.args_base.to_dict())
+        self.assertTrue(0 not in self.args_base.to_dict())
+
+        self.assertIsInstance(self.args_base, BaseModel)
+        self.assertIsInstance(self.args_base, Place)
+        self.assertIsNotNone(self.args_base.id)
+        self.assertIsNotNone(self.args_base.created_at)
+        self.assertIsNotNone(self.args_base.updated_at)
+
+   
