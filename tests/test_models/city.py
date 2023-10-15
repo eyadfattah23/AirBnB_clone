@@ -32,3 +32,21 @@ class TestCity(unittest.TestCase):
         self.assertEqual(self.my_model.my_number, 89)
         self.assertEqual(str(self.my_model), "[City] ({}) {}".format(
             self.my_model.id, self.my_model.__dict__))
+
+    def test_types(self):
+        """test everything's type"""
+        self.assertIsInstance(self.my_model, BaseModel)
+        self.assertIsInstance(self.my_model, City)
+        self.assertTrue(issubclass(City, BaseModel))
+
+        self.assertIsInstance(self.my_model.created_at, datetime.datetime)
+        self.assertIsInstance(self.my_model.updated_at, datetime.datetime)
+
+        self.assertIsInstance(self.my_model_json, dict)
+        self.assertIsInstance(self.my_model_json['created_at'], str)
+        self.assertIsInstance(self.my_model_json['updated_at'], str)
+        self.assertIsInstance(self.my_model_json['__class__'], str)
+
+        self.assertTrue(hasattr(self.my_model, "name"))
+
+        self.assertIsInstance(self.my_model.id, str)
