@@ -25,3 +25,10 @@ class TestPlace(unittest.TestCase):
         del self.my_model
         del self.args_base
         del self.base_with_kwargs
+
+    def test_str(self):
+        """test string representation"""
+        self.assertEqual(self.my_model.name, "My First Model")
+        self.assertEqual(self.my_model.my_number, 89)
+        self.assertEqual(str(self.my_model), "[Place] ({}) {}".format(
+            self.my_model.id, self.my_model.__dict__))
