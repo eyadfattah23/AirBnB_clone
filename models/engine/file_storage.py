@@ -5,6 +5,7 @@
 deserializes JSON file to instances"""
 
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -49,7 +50,9 @@ class FileStorage:
             with open(self.__file_path, 'r+') as f:
                 dictionary = json.load(f)
             for key, value in dictionary.items():
-                self.__objects.update({key: BaseModel(**value)})
+                class_name = dictionary[key]['__class__']
+                self.__objects.update(
+                    {key: eval(class_name)(**value)})
 
         except Exception as e:
             pass
