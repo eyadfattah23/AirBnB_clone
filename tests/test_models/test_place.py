@@ -80,3 +80,24 @@ class TestPlace(unittest.TestCase):
         self.assertTrue(self.my_model.amenity_ids == [])
 
         self.assertIsInstance(self.my_model.id, str)
+
+    def test_dictRepresentation(self):
+        """test the to dict method"""
+        self.my_model.id = 'fa5f7cec-e7e1-436f-ba49-35241277adac'
+        self.my_model.city_id = 'last_name'
+        self.my_model.user_id = 'first_name'
+        self.my_model.number_rooms = 0
+        self.my_model.latitude = 0.0
+        self.my_model_json = self.my_model.to_dict()
+        self.assertDictEqual(self.my_model_json, {
+            'my_number': 89,
+            'name': 'My First Model',
+            '__class__': 'Place',
+            'updated_at': self.my_model.updated_at.isoformat(),
+            'created_at': self.my_model.created_at.isoformat(),
+            'id': self.my_model.id,
+            'city_id': 'last_name',
+            'user_id': 'first_name',
+            'number_rooms': 0,
+            'latitude': 0.0
+        })
