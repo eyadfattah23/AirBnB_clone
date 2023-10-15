@@ -1,23 +1,24 @@
 #!/usr/bin/python3
 from models.base_model import BaseModel
+from models.user import User
 
 import unittest
 import datetime
 """define test class to test base model"""
 
 
-class TestBaseModel(unittest.TestCase):
+class TestUser(unittest.TestCase):
     """test class for testing BaseModel"""
 
     def setUp(self):
         """set up module"""
-        self.my_model = BaseModel()
+        self.my_model = User()
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
         self.my_model_json = self.my_model.to_dict()
 
-        self.args_base = BaseModel(89, 'my_model', 0)
-        self.base_with_kwargs = BaseModel(**self.my_model_json)
+        self.args_base = User(89, 'my_model', 0)
+        self.base_with_kwargs = User(**self.my_model_json)
 
     def tearDown(self):
         """tear down module"""
@@ -29,12 +30,14 @@ class TestBaseModel(unittest.TestCase):
         """test string representation"""
         self.assertEqual(self.my_model.name, "My First Model")
         self.assertEqual(self.my_model.my_number, 89)
-        self.assertEqual(str(self.my_model), "[BaseModel] ({}) {}".format(
+        self.assertEqual(str(self.my_model), "[User] ({}) {}".format(
             self.my_model.id, self.my_model.__dict__))
 
     def test_types(self):
         """test everything's type"""
         self.assertIsInstance(self.my_model, BaseModel)
+        self.assertIsInstance(self.my_model, User)
+        self.assertTrue(issubclass(User, BaseModel))
 
         self.assertIsInstance(self.my_model.created_at, datetime.datetime)
         self.assertIsInstance(self.my_model.updated_at, datetime.datetime)
@@ -44,19 +47,35 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.my_model_json['updated_at'], str)
         self.assertIsInstance(self.my_model_json['__class__'], str)
 
+        self.assertTrue(hasattr(self.my_model, "email"))
+        self.assertTrue(self.my_model.email == "")
+
+        self.assertTrue(hasattr(self.my_model, "password"))
+        self.assertTrue(self.my_model.password == "")
+
+        self.assertTrue(hasattr(self.my_model, "first_name"))
+        self.assertTrue(self.my_model.first_name == "")
+
+        self.assertTrue(hasattr(self.my_model, "last_name"))
+        self.assertTrue(self.my_model.last_name == "")
+
         self.assertIsInstance(self.my_model.id, str)
 
     def test_dictRepresentation(self):
         """test the to dict method"""
         self.my_model.id = 'fa5f7cec-e7e1-436f-ba49-35241277adac'
+        self.my_model.first_name = 'last_name'
+        self.my_model.last_name = 'first_name'
         self.my_model_json = self.my_model.to_dict()
         self.assertDictEqual(self.my_model_json, {
             'my_number': 89,
             'name': 'My First Model',
-            '__class__': 'BaseModel',
+            '__class__': 'User',
             'updated_at': self.my_model.updated_at.isoformat(),
             'created_at': self.my_model.created_at.isoformat(),
-            'id': self.my_model.id
+            'id': self.my_model.id,
+            'first_name': 'last_name',
+            'last_name': 'first_name'
         })
 
     def test_save(self):
@@ -78,6 +97,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(0 not in self.args_base.to_dict())
 
         self.assertIsInstance(self.args_base, BaseModel)
+        self.assertIsInstance(self.args_base, User)
         self.assertIsNotNone(self.args_base.id)
         self.assertIsNotNone(self.args_base.created_at)
         self.assertIsNotNone(self.args_base.updated_at)
@@ -105,27 +125,35 @@ class TestBaseModel(unittest.TestCase):
 
     def test_none_kwargs(self):
         """test initialization of a base model instance with no kwargs"""
-        base2 = BaseModel(None)
-        self.assertIsInstance(base2, BaseModel)
+        my_user2 = User()
+        my_user2.first_name = "John"
+        my_user2.email = "airbnb2@mail.com"
+        my_user2.password = "root"
+        self.assertIsInstance(my_user2.created_at, datetime.datetime)
+        self.assertIsInstance(my_user2.updated_at, datetime.datetime)
 
-        self.assertIsInstance(base2.created_at, datetime.datetime)
-        self.assertIsInstance(base2.updated_at, datetime.datetime)
+        self.assertIsInstance(my_user2.to_dict(), dict)
+        self.assertIsInstance(my_user2.to_dict()['created_at'], str)
+        self.assertIsInstance(my_user2.to_dict()['updated_at'], str)
+        self.assertIsInstance(my_user2.to_dict()['first_name'], str)
+        self.assertIsInstance(my_user2.to_dict()['email'], str)
+        self.assertIsInstance(my_user2.to_dict()['password'], str)
 
-        self.assertIsInstance(base2.to_dict(), dict)
-        self.assertIsInstance(base2.to_dict()['created_at'], str)
-        self.assertIsInstance(base2.to_dict()['updated_at'], str)
-        self.assertIsInstance(base2.to_dict()['__class__'], str)
-
-        self.assertIsInstance(base2.id, str)
+        self.assertEqual(my_user2.first_name, 'John')
+        self.assertEqual(my_user2.email, 'airbnb2@mail.com')
+        self.assertEqual(my_user2.password, 'root')
+        self.assertIsInstance(my_user2.id, str)
 
     def test_args_and_kwargs(self):
         """test initialization of a base model instance with args
                 and no kwargs"""
-        base3 = BaseModel(1, 2, name='best_school', num=89)
-        base4 = BaseModel(name='bestest_school', num=8989)
+        base3 = User(1, 2, name='best_school', num=89)
+        base4 = User(name='bestest_school', num=8989)
+        self.assertIsInstance(base3, User)
         self.assertIsInstance(base3, BaseModel)
         self.assertEqual(base3.name, 'best_school')
         self.assertEqual(base3.num, 89)
         self.assertIsInstance(base4, BaseModel)
+        self.assertIsInstance(base4, User)
         self.assertEqual(base4.name, 'bestest_school')
         self.assertEqual(base4.num, 8989)
