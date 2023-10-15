@@ -19,3 +19,9 @@ class TestPlace(unittest.TestCase):
 
         self.args_base = Place(89, 'my_model', 0)
         self.base_with_kwargs = Place(**self.my_model_json)
+
+    def tearDown(self):
+        """tear down module"""
+        del self.my_model
+        del self.args_base
+        del self.base_with_kwargs
