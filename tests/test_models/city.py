@@ -50,3 +50,18 @@ class TestCity(unittest.TestCase):
         self.assertTrue(hasattr(self.my_model, "name"))
 
         self.assertIsInstance(self.my_model.id, str)
+
+    def test_dictRepresentation(self):
+        """test the to dict method"""
+        self.my_model.id = 'fa5f7cec-e7e1-436f-ba49-35241277adac'
+        self.my_model.name = 'last_name'
+        self.my_model_json = self.my_model.to_dict()
+        self.assertDictEqual(self.my_model_json, {
+            'my_number': 89,
+            'name': 'My First Model',
+            '__class__': 'City',
+            'updated_at': self.my_model.updated_at.isoformat(),
+            'created_at': self.my_model.created_at.isoformat(),
+            'id': self.my_model.id,
+            'name': 'last_name'
+        })
