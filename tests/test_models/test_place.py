@@ -107,3 +107,11 @@ class TestPlace(unittest.TestCase):
         up_at1 = self.my_model.updated_at
         self.my_model.save()
         self.assertNotEqual(up_at1, self.my_model.updated_at)
+
+    def test_args(self):
+        """test if the *args is read (it shouldn't be)"""
+        with self.assertRaises(AttributeError) as e:
+            self.assertIsNone(self.args_base.number)
+            self.assertIsNone(self.args_base.number)
+            self.assertIsNone(self.args_base.name)
+            self.assertIsNone(self.args_base.updated_at)
