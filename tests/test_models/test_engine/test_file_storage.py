@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-
+"""define test class to test the json file storage,
+FileStorage class and
+storage instance"""
 
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage

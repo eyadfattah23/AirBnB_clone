@@ -1,10 +1,10 @@
 #!/usr/bin/python3
+"""define test class to test base model"""
 from models.base_model import BaseModel
 from models.state import State
 
 import unittest
 import datetime
-"""define test class to test base model"""
 
 
 class TestState(unittest.TestCase):
