@@ -146,3 +146,13 @@ class TestState(unittest.TestCase):
         self.assertIsInstance(base4, Review)
         self.assertEqual(base4.name, 'bestest_school')
         self.assertEqual(base4.num, 8989)
+
+    def test_class(self):
+        """Validate the types of the attributes an class"""
+        with self.subTest(msg='Inheritance'):
+            self.assertTrue(issubclass(Review, BaseModel))
+
+        with self.subTest(msg='Attributes'):
+            self.assertIsInstance(Review.place_id, str)
+            self.assertIsInstance(Review.user_id, str)
+            self.assertIsInstance(Review.text, str)
