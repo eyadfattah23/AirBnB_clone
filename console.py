@@ -295,9 +295,14 @@ the model_type and model_id')
                     args = args_line.split(', ')
                     id = args[0]
                     attribute = args[1]
-                    value = args[2]
-                    self.do_update(class_type + ' ' + id +
-                                   ' ' + attribute + ' ' + value)
+                    if type(attribute) == dict:
+                        for key, value in attribute.items():
+                            self.do_update(class_type + ' ' + id +
+                                           ' ' + key + ' ' + value)
+                    else:
+                        value = args[2]
+                        self.do_update(class_type + ' ' + id +
+                                       ' ' + attribute + ' ' + value)
 
 
 if __name__ == '__main__':
