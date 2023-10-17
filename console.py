@@ -238,7 +238,7 @@ the model_type and model_id')
         '''help for all method'''
 
         # update <class name> <id> <attribute name> "<attribute value>"
-        print("all [model_type]")
+        print("update <class name> <id> <attribute name> <attribute value>")
         print("Updates an instance based\
             on the class name and id by adding or updating attribute")
 
@@ -288,6 +288,16 @@ the model_type and model_id')
 
                 if command == "destroy":
                     self.do_destroy(class_type + ' ' + id)
+
+                if command == "update":
+                    args_line = command_id[command_id.index(
+                        '(') + 1: command_id.index(')')]
+                    args = args_line.split(', ')
+                    id = args[0]
+                    attribute = args[1]
+                    value = args[2]
+                    self.do_update(class_type + ' ' + id +
+                                   ' ' + attribute + ' ' + value)
 
 
 if __name__ == '__main__':
