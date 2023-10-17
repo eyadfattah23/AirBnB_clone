@@ -258,8 +258,8 @@ the model_type and model_id')
         """default method to handle [model].all()"""
         if line.endswith(".all()"):
             class_type = line[:-6]
-            # Remove the ".all()" suffix and call do_all method
             self.do_all(class_type)
+
         if line.endswith(".count()"):
             count = 0
             class_type = line[:-8]
@@ -267,6 +267,18 @@ the model_type and model_id')
                 if class_type in obj:
                     count += 1
             print(count)
+
+        else:
+
+            if '.' in line:
+                line_list = line.split('.')  # [class_type, command(<id>)]
+                class_type = line_list[0]
+                command_id = line_list[1]
+                command = command_id[:command_id.index('(')]
+                id = command_id[command_id.index(
+                    '(') + 1: command_id.index(')')]
+                if command == "show":
+                    self.do_show(class_type + ' ' + id)
 
 
 if __name__ == '__main__':
