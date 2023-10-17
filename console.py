@@ -257,9 +257,16 @@ the model_type and model_id')
     def default(self, line):
         """default method to handle [model].all()"""
         if line.endswith(".all()"):
-            nline = line[:-6]
+            class_type = line[:-6]
             # Remove the ".all()" suffix and call do_all method
-            self.do_all(nline)
+            self.do_all(class_type)
+        if line.endswith(".count()"):
+            count = 0
+            class_type = line[:-8]
+            for obj in storage.all().keys():
+                if class_type in obj:
+                    count += 1
+            print(count)
 
 
 if __name__ == '__main__':
