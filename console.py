@@ -255,7 +255,12 @@ the model_type and model_id')
 
 # -----------------------------------------
     def default(self, line):
-        """default method to handle [model].all()"""
+        """default method to handle
+        [model_type].all(),
+        [model_type].count(),
+        [model_type].show(<id>),
+        [model_type].destroy(<id>),
+        """
         if line.endswith(".all()"):
             class_type = line[:-6]
             self.do_all(class_type)
@@ -277,8 +282,12 @@ the model_type and model_id')
                 command = command_id[:command_id.index('(')]
                 id = command_id[command_id.index(
                     '(') + 1: command_id.index(')')]
+
                 if command == "show":
                     self.do_show(class_type + ' ' + id)
+
+                if command == "destroy":
+                    self.do_destroy(class_type + ' ' + id)
 
 
 if __name__ == '__main__':
