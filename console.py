@@ -226,7 +226,7 @@ the model_type and model_id')
             model_id = args[1]
             model_key = f"{model_type}.{model_id}"
             attribute = args[2]
-            value = eval(args[3])
+            value = args[3]
             if model_key not in storage.all():
                 print("** no instance found **")
                 return
@@ -292,13 +292,17 @@ the model_type and model_id')
                 if command == "update":
                     args_line = command_id[command_id.index(
                         '(') + 1: command_id.index(')')]
-                    args = args_line.split(', ')
-                    id = args[0]
+                    args = args_line.split(', ', 1)
+                    print(args)
+                    id = eval(args[0])
                     attribute = args[1]
-                    if type(attribute) == dict:
-                        for key, value in attribute.items():
-                            self.do_update(class_type + ' ' + id +
-                                           ' ' + key + ' ' + value)
+                    print(id)
+                    print(attribute)
+
+                    if isinstance(eval(attribute), dict):
+                        for key, value in eval(attribute).items():
+                            self.do_update(class_type + ' ' + f'{id}' +
+                                           ' ' + key + ' ' + f'{value}')
                     else:
                         value = args[2]
                         self.do_update(class_type + ' ' + id +
