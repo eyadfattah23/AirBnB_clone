@@ -253,6 +253,14 @@ the model_type and model_id')
                            ]
         return completions
 
+# -----------------------------------------
+    def default(self, line):
+        """default method to handle [model].all()"""
+        if line.endswith(".all()"):
+            nline = line[:-6]
+            # Remove the ".all()" suffix and call do_all method
+            self.do_all(nline)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
