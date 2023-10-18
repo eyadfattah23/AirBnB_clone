@@ -5,6 +5,7 @@ from models.place import Place
 
 import unittest
 import datetime
+import os
 
 
 class TestPlace(unittest.TestCase):
@@ -12,6 +13,10 @@ class TestPlace(unittest.TestCase):
 
     def setUp(self):
         """set up module"""
+        try:
+            os.remove('file.json')
+        except Exception as e:
+            pass
         self.my_model = Place()
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
@@ -22,6 +27,10 @@ class TestPlace(unittest.TestCase):
 
     def tearDown(self):
         """tear down module"""
+        try:
+            os.remove('file.json')
+        except Exception as e:
+            pass
         del self.my_model
         del self.args_base
         del self.base_with_kwargs

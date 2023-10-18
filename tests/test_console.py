@@ -15,7 +15,7 @@ from models.review import Review
 from models import storage
 
 from console import HBNBCommand
-
+import os
 
 import unittest
 import datetime
@@ -34,6 +34,20 @@ Documented commands (type help <topic>):
 EOF  all  create  destroy  help  quit  show  update\n
 """
         self.assertEqual(output, f.getvalue())
+
+    def setUp(self):
+        '''set up module'''
+        try:
+            os.remove('file.json')
+        except Exception as e:
+            pass
+
+    def tearDown(self):
+        '''tear down module'''
+        try:
+            os.remove('file.json')
+        except Exception as e:
+            pass
 
     def test_do_EOF(self):
         '''tests for the EOF command'''
@@ -68,3 +82,23 @@ EOF  all  create  destroy  help  quit  show  update\n
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             HBNBCommand().onecmd('')
             self.assertEqual(mock_stdout.getvalue().strip(), '')
+
+    def test_do_create(self):
+        """tests for create command"""
+        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            HBNBCommand().onecmd('create BaseModel')
+            model_id = mock_stdout.getvalue().strip()
+            model_key_objects = "BaseModel.{}".format(model_id)
+            storage.reload()
+            self.assertTrue(model_key_objects in storage.all())
+            self.assertIsInstance(model_id, str)
+            self.assertEqual(model_id, storage.all()[model_key_objects].id)
+
+    def test_help_create(self):
+        '''tests for the help create command'''
+        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            HBNBCommand().onecmd('help create')
+            self.assertEqual(mock_stdout.getvalue().strip(),
+                             """create [Model_Type]\ncreates a new instance of given
+                argument type, saves it (to the JSON file)
+                and prints the id""")
