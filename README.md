@@ -192,3 +192,7 @@ the most popular resets is [Eric Meyer’s reset](http://meyerweb.com/eric/tools
 > > margin-top + border-top + padding-top + height + padding-bottom + border-bottom + margin-bottom
 
 ![8->](images/image2.png)
+
+> 9-> "`margin: 30px 12px 4px;`" is valid
+
+> 10-> "` <img src="logo.png" />`" is valid (remove or keep the /)
