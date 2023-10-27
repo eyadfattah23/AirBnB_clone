@@ -14,10 +14,8 @@
 	width: 20%;
 	border: none;
 	border-radius: 4px;
-	position: relative;
-	top: 50%;
-	left: 790px;
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
+	float: right;
+	margin-top: 11px;
+	margin-right: 30px;
 }
 .filters button:hover {opacity: 0.9}
