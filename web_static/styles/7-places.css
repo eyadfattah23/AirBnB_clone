@@ -1,0 +1,32 @@
+
+.cells {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+.places h1 {
+	font-size: 30px;
+	padding-top: 0px;
+	margin-top: 20px;
+	padding-left: 10px;
+	display: block;
+}
+
+.places_cells {
+	width: 390px;
+	margin: 20px;
+	margin-left: 40px;
+	padding: 20px;
+	border: 1px solid #FF5A5F;
+	border-radius: 4px;
+	font-size: 30px;
+	text-align: center;
+	position: relative;
+	float: inline-start;
+}
+
+.places_cells h2 {
+	margin: 0px;
+	padding: 0%;
+}
